@@ -15,8 +15,8 @@ public class GameDataMap : ClassMap<GameData>
 {
     public GameDataMap()
     {
-        Map(m => m.Number).Index(2);
-        Map(m => m.Name).Index(4);
+        Map(m => m.Number).Index(1);
+        Map(m => m.Name).Index(3);
     }
 }
 

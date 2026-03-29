@@ -1,8 +1,16 @@
-﻿namespace LTDSaveEditor.Core;
+﻿using LTDSaveEditor.Core.SAV;
+using System.ComponentModel.DataAnnotations;
+using System.Text;
+
+namespace LTDSaveEditor.Core;
 
 public class SaveInstance
 {
     public static SaveInstance FromFolder(string folder) => new(folder);
+
+    SavFile Mii;
+    SavFile Map;
+    SavFile Player;
 
     public string Folder { get; }
 

@@ -1,0 +1,14 @@
+﻿using BinaryReader = AeonSake.BinaryTools.BinaryReader;
+
+namespace LTDSaveEditor.Core.Types;
+
+public class Binary
+{
+    public byte[] Bytes { get; }
+    public Binary(BinaryReader reader)
+    {
+        var size = reader.ReadInt32();
+        Bytes = reader.ReadByteArray(size);
+
+    }
+}
