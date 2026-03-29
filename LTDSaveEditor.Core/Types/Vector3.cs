@@ -6,4 +6,11 @@ public record Vector3(float X, float Y, float Z)
 {
     public Vector3(BinaryReader reader) : this(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle())
     { }
+
+    public void Write(AeonSake.BinaryTools.BinaryWriter writer)
+    {
+        writer.Write(X);
+        writer.Write(Y);
+        writer.Write(Z);
+    }
 }

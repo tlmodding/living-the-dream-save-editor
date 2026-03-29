@@ -11,4 +11,10 @@ public class Binary
         Bytes = reader.ReadByteArray(size);
 
     }
+
+    public void Write(AeonSake.BinaryTools.BinaryWriter writer)
+    {
+        writer.Write(Bytes.Length);
+        writer.Write(Bytes);
+    }
 }

@@ -1,8 +1,8 @@
 ﻿using LTDSaveEditor.Core.SAV;
 
-namespace LTDSaveEditor.Core;
+namespace LTDSaveEditor.Core.Extensions;
 
-public static class Extensions
+public static class DataTypeExtensions
 {
     extension(DataType type)
     {

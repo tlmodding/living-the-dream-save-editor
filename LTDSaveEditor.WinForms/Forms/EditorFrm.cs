@@ -14,6 +14,23 @@ public partial class EditorFrm : Form
 
         SaveInstance = instance;
 
+        saveToolStripMenuItem.Click += (_, _) =>
+        {
+            try
+            {
+                var dir = Path.Combine(SaveInstance.Folder, "Temp");
+                Directory.CreateDirectory(dir);
+
+                var playerPath = Path.Combine(dir, "Player.sav");
+                using var playerStream = File.Create(playerPath);
+                    SaveInstance.Player.Save(playerStream);
+            }
+            catch (Exception ex)
+            {
+                WinFormsUtility.ErrorMessage($"Failed to save: {ex.Message}");
+            }
+        };
+
         closeToolStripMenuItem.Click += (_, _) => Close();
 
         dockPanel.Theme = new VS2015DarkTheme();

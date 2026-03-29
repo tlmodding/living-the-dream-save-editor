@@ -62,9 +62,14 @@ public partial class EditorPage : UserControl
                 currentLevel = currentNode.Nodes;
             }
 
-            // Assign tag only to the final node
-            currentNode?.Text += $" ({entry.Value})";
-            currentNode?.Tag = hash;
+            if (currentNode == null)
+                continue;
+
+            if (entry.DataType == DataType.Bool64bitKey && entry.Value == null)
+                continue;
+
+            currentNode.Text += $" ({entry.Value})";
+            currentNode.Tag = hash;
         }
         gamedataTree.EndUpdate();
     }

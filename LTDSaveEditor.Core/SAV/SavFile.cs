@@ -1,11 +1,13 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using LTDSaveEditor.Core.Extensions;
+using System.Diagnostics.CodeAnalysis;
 using BinaryReader = AeonSake.BinaryTools.BinaryReader;
+using BinaryWriter = AeonSake.BinaryTools.BinaryWriter;
 
 namespace LTDSaveEditor.Core.SAV;
 
 public class SavFile
 {
-    public static byte[] Magic = { 4,3,2,1 };
+    public static readonly byte[] Magic = [4, 3, 2, 1];
 
     public int Version { get; set; }
     public int SaveDataOffset { get; set; }
@@ -51,5 +53,40 @@ public class SavFile
 
         entry = null;
         return false;
+    }
+
+    public void Save(Stream stream)
+    {
+        using var writer = new BinaryWriter(stream);
+
+        writer.Write(Magic);
+        writer.Write(Version);
+        var pointer = writer.CreatePointer();
+
+        writer.Align(0x20);
+
+        var dataTypes = Enum.GetValues<DataType>();
+        var entries = new List<SavFileEntry>();
+        foreach(var dataType in dataTypes)
+        {
+            writer.Write(0u);
+            writer.Write((uint) dataType);
+
+            var values = Entries.Values.Where(e => e.DataType == dataType);
+
+            foreach (var item in values)
+            {
+                writer.Write(item.Hash);
+                item.Write(writer);
+                entries.Add(item);
+            }
+        }
+
+        pointer.Resolve((uint) writer.Position);
+
+        foreach (var item in entries)
+        {
+            item.WritePointer();
+        }
     }
 }
