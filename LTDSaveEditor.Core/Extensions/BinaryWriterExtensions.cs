@@ -1,4 +1,5 @@
-﻿using BinaryWriter = AeonSake.BinaryTools.BinaryWriter;
+﻿using System.Text;
+using BinaryWriter = AeonSake.BinaryTools.BinaryWriter;
 
 namespace LTDSaveEditor.Core.Extensions;
 
@@ -6,6 +7,13 @@ public static class BinaryWriterExtensions
 {
     extension(BinaryWriter writer)
     {
+        public void WriteWString(string value, int maxLength)
+        {
+            var b = Encoding.Unicode.GetBytes(value);
+            Array.Resize(ref b, maxLength);
+            writer.Write(b);
+        }
+
         public WriterScopePointer CreatePointer()
         {
             var pointer = new WriterScopePointer(writer, writer.Position);

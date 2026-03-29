@@ -117,10 +117,13 @@ public class SavFileEntry
                 writer.Write((ulong)value);
                 break;
             case DataType.WString16:
+                writer.WriteWString((string)value, 16 * 2);
+                break;
             case DataType.WString32:
+                writer.WriteWString((string)value, 32 * 2);
+                break;
             case DataType.WString64:
-                // TODO: Add safe checks for string length and throw if it exceeds the max length for the type
-                writer.Write((string)value, Encoding.Unicode);
+                writer.WriteWString((string)value, 64 * 2);
                 break;
 
             default:

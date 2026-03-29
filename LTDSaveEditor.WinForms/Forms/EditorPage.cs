@@ -22,7 +22,19 @@ public partial class EditorPage : UserControl
 
         if (SaveFile.TryGetValue(hash, out var entry))
         {
-            label1.Text = $"Hash: {hash:X} | Value: {entry.Value} | Type: {entry.DataType}";
+            if (entry.Value is Array array)
+            {
+                var arrayValues = new List<string>();
+                System.Collections.IList list = array;
+                for (int i = 0; i < list.Count; i++)
+                {
+                    object? item = list[i];
+                    arrayValues.Add($"{i}: {item?.ToString() ?? "null"}");
+                }
+
+                valueLabel.Text = $"Hash: {hash:X} | Type: {entry.DataType}[{array.Length}]:\n{string.Join('\n', arrayValues)}\n\n";
+            }
+            else valueLabel.Text = $"Hash: {hash:X} | Value: {entry.Value} | Type: {entry.DataType}";
         }
     }
 
@@ -68,7 +80,10 @@ public partial class EditorPage : UserControl
             if (entry.DataType == DataType.Bool64bitKey && entry.Value == null)
                 continue;
 
-            currentNode.Text += $" ({entry.Value})";
+            if (entry.Value is Array array)
+                currentNode.Text += $" ({entry.DataType}[{array.Length}])";
+            else 
+                currentNode.Text += $" ({entry.Value})";
             currentNode.Tag = hash;
         }
         gamedataTree.EndUpdate();
