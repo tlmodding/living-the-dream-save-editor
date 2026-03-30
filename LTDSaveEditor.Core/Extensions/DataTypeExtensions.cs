@@ -1,4 +1,5 @@
 ﻿using LTDSaveEditor.Core.SAV;
+using LTDSaveEditor.Core.Types;
 
 namespace LTDSaveEditor.Core.Extensions;
 
@@ -84,6 +85,27 @@ public static class DataTypeExtensions
             DataType.WString64 => true,
             DataType.Bool64bitKey => true,
             _ => type.IsArray(),
+        };
+
+        public Type ToType() => type switch
+        {
+            DataType.Bool => typeof(bool),
+            DataType.Int => typeof(int),
+            DataType.Float => typeof(float),
+            DataType.Enum => typeof(uint),
+            DataType.Vector2 => typeof(Vector2),
+            DataType.Vector3 => typeof(Vector3),
+            DataType.String16 => typeof(string),
+            DataType.String32 => typeof(string),
+            DataType.String64 => typeof(string),
+            DataType.Binary => typeof(Binary),
+            DataType.UInt => typeof(uint),
+            DataType.Int64 => typeof(long),
+            DataType.UInt64 => typeof(ulong),
+            DataType.WString16 => typeof(string),
+            DataType.WString32 => typeof(string),
+            DataType.WString64 => typeof(string),
+            _ => throw new NotImplementedException($"Conversion from {type} is not implemented."),
         };
     }
 }

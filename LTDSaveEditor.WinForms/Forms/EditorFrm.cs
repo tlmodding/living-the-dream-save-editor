@@ -49,17 +49,21 @@ public partial class EditorFrm : Form
         closeToolStripMenuItem.Click += (_, _) => Close();
 
         dockPanel.Theme = new VS2015DarkTheme();
-        CreateTab("Player", SaveInstance.Player);
+        var playerTab = CreateTab("Player", SaveInstance.Player);
         CreateTab("Mii", SaveInstance.Mii);
         CreateTab("Map", SaveInstance.Map);
+
+        playerTab.Activate();
     }
 
-    private async void CreateTab(string tabName, SavFile savFile)
+    private DockableControl<EditorPage> CreateTab(string tabName, SavFile savFile)
     {
         var page = new EditorPage(savFile);
         var dock = DockableControl.Create(page, tabName);
 
         dock.Show(dockPanel, DockState.Document);
+
+        return dock;
     }
 
     private void EditorFrm_FormClosing(object sender, FormClosingEventArgs e)

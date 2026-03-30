@@ -1,5 +1,6 @@
 ﻿using LTDSaveEditor.Core;
 using LTDSaveEditor.Core.SAV;
+using LTDSaveEditor.WinForms.Utility;
 
 namespace LTDSaveEditor.WinForms.Forms;
 
@@ -15,29 +16,137 @@ public partial class EditorPage : UserControl
         Load += async (_, _) => LoadGameData();
     }
 
+
+    private static readonly Brush RowHeaderBrush = new SolidBrush(Color.FromArgb(255, 255, 255));
+
+    private static readonly StringFormat RowHeaderStringFormat = new()
+    {
+        Alignment = StringAlignment.Center,
+        LineAlignment = StringAlignment.Center
+    };
+
     private void GamdataTree_AfterSelect(object? sender, TreeViewEventArgs e)
     {
         if (e.Node?.Tag is not uint hash) return;
 
+        foreach(Control control in splitContainer.Panel2.Controls)
+        {
+            splitContainer.Panel2.Controls.Remove(control);
+
+            if (control is IDisposable disposable)
+                disposable.Dispose();
+        }
+
+
 
         if (SaveFile.TryGetValue(hash, out var entry))
         {
+            var name = HashManager.GetName(hash);
+
+            var dgv = new DataGridView
+            {
+                VirtualMode = true,
+                Dock = DockStyle.Fill,
+                AllowUserToAddRows = false,
+                BorderStyle = BorderStyle.None,
+                EditMode = DataGridViewEditMode.EditOnF2,
+                BackgroundColor = splitContainer.Panel2.BackColor,
+                AlternatingRowsDefaultCellStyle = new DataGridViewCellStyle
+                {
+                    BackColor = Color.FromArgb(30, 30, 30),
+                    ForeColor = Color.White,
+                    SelectionBackColor = SystemColors.Highlight,
+                    SelectionForeColor = SystemColors.HighlightText
+                },
+                RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single,
+                AllowUserToResizeRows = false,
+                AllowUserToDeleteRows = false,
+                EnableHeadersVisualStyles = false,
+                AllowUserToOrderColumns = false,
+                AllowUserToResizeColumns = false,
+                AutoGenerateColumns = false, 
+                Columns = {}
+            };
+
+            dgv.RowPostPaint += (s, e) =>
+            {
+                var headerBounds = new Rectangle(e.RowBounds.Left, e.RowBounds.Top, dgv.RowHeadersWidth, e.RowBounds.Height);
+                var roxIndexName = (e.RowIndex + 1).ToString();
+                e.Graphics.DrawString(roxIndexName, Font, Brushes.White, headerBounds, RowHeaderStringFormat);
+            };
+
+            splitContainer.Panel2.Controls.Add(dgv);
+            dgv.Update();
+
             if (entry.Value is Array array)
             {
-                var arrayValues = new List<string>();
-                System.Collections.IList list = array;
-                for (int i = 0; i < list.Count; i++)
-                {
-                    object? item = list[i];
-                    var val = entry.DataType == DataType.EnumArray && item is uint enumHash ? enumHash.ToString("X") : item?.ToString();
-                    arrayValues.Add($"{i}: {val ?? "null"}");
-                }
+                var targetType = array.GetType().GetElementType();
+                if (targetType == null) return;
 
-                valueLabel.Text = $"Hash: {hash:X} | Type: {entry.DataType}[{array.Length}]:\n{string.Join('\n', arrayValues)}\n\n";
+                var column = CreateColumn(targetType);
+                column.ValueType = targetType;
+                column.HeaderText = name;
+                column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                dgv.Columns.Add(column);
+
+
+                dgv.CellValueNeeded += (s, e) => e.Value = array.GetValue(e.RowIndex);
+                dgv.CellValuePushed += (s, e) =>
+                {
+                    if (e.RowIndex < 0 || e.RowIndex >= array.Length)
+                        return;
+
+                    if (e.Value?.GetType() == targetType)
+                        array.SetValue(e.Value, e.RowIndex);
+                    else WinFormsUtility.ErrorMessage("The value you are trying to set doesn't match the array type.");
+                };
+
+                dgv.RowCount = array.Length;
             }
-            else valueLabel.Text = $"Hash: {hash:X} | Value: {entry.Value} | Type: {entry.DataType}";
+            else
+            {
+                var targetType = entry.Value?.GetType();
+                if (targetType == null) return;
+
+
+                var column = CreateColumn(targetType);
+                column.ValueType = targetType;
+                column.HeaderText = name;
+                column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                dgv.Columns.Add(column);
+
+                dgv.CellValueNeeded += (s, e) => e.Value = entry.Value;
+                dgv.CellValuePushed += (s, e) =>
+                {
+                    if (e.RowIndex < 0 || e.RowIndex > 1)
+                        return;
+
+                    if (e.Value?.GetType() == targetType)
+                        entry.Value = e.Value;
+                    else WinFormsUtility.ErrorMessage("The value you are trying to set doesn't match the field type.");
+                };
+
+                dgv.RowCount = 1;
+
+            }
+            
+            dgv.Update();
         }
     }
+
+    public static DataGridViewColumn CreateColumn(Type targetType)
+    {
+        DataGridViewColumn column;
+        if (targetType == typeof(bool))
+            column = new DataGridViewCheckBoxColumn();
+        else if (targetType == typeof(float) || targetType == typeof(double))
+            column = new DataGridViewTextBoxColumn { DefaultCellStyle = new DataGridViewCellStyle { Format = "G" } };
+        else
+            column = new DataGridViewTextBoxColumn();
+
+        return column;
+    }
+
 
     private async void LoadGameData()
     {

@@ -57,6 +57,7 @@ public partial class MainFrm : Form
                 editorFrm.Show();
                 Program.AppContext.ChangeMainForm(editorFrm);
                 Close();
+                editorFrm.Activate();
             }
         }
     }

@@ -58,6 +58,7 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             Name = "MainFrm";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Living the Dream: Save Editor";
             ResumeLayout(false);
             PerformLayout();

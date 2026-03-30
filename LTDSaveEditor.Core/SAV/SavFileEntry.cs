@@ -53,9 +53,10 @@ public class SavFileEntry
                     {
                         var singleType = type.ToSingle();
 
-                        var array = new object[count];
+                        var array = Array.CreateInstance(singleType.ToType(), count);
+                        //var array = new object[count];
                         for (uint i = 0; i < count; i++)
-                            array[i] = ReadValue(reader, singleType);
+                            array.SetValue(ReadValue(reader, singleType), i);
 
                         Value = array;
                     }

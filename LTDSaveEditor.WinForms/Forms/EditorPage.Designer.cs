@@ -29,16 +29,14 @@
         private void InitializeComponent()
         {
             gamedataTree = new TreeView();
-            splitContainer1 = new SplitContainer();
-            valueLabel = new Label();
+            splitContainer = new SplitContainer();
             fileToolStripMenuItem = new ToolStripMenuItem();
             saveToolStripMenuItem = new ToolStripMenuItem();
             toolStripSeparator1 = new ToolStripSeparator();
             closeToolStripMenuItem = new ToolStripMenuItem();
-            ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
-            splitContainer1.Panel1.SuspendLayout();
-            splitContainer1.Panel2.SuspendLayout();
-            splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)splitContainer).BeginInit();
+            splitContainer.Panel1.SuspendLayout();
+            splitContainer.SuspendLayout();
             SuspendLayout();
             // 
             // gamedataTree
@@ -53,32 +51,23 @@
             gamedataTree.Size = new Size(266, 450);
             gamedataTree.TabIndex = 0;
             // 
-            // splitContainer1
+            // splitContainer
             // 
-            splitContainer1.Dock = DockStyle.Fill;
-            splitContainer1.Location = new Point(0, 0);
-            splitContainer1.Name = "splitContainer1";
+            splitContainer.Dock = DockStyle.Fill;
+            splitContainer.Location = new Point(0, 0);
+            splitContainer.Name = "splitContainer";
             // 
-            // splitContainer1.Panel1
+            // splitContainer.Panel1
             // 
-            splitContainer1.Panel1.Controls.Add(gamedataTree);
+            splitContainer.Panel1.Controls.Add(gamedataTree);
             // 
-            // splitContainer1.Panel2
+            // splitContainer.Panel2
             // 
-            splitContainer1.Panel2.AutoScroll = true;
-            splitContainer1.Panel2.Controls.Add(valueLabel);
-            splitContainer1.Size = new Size(800, 450);
-            splitContainer1.SplitterDistance = 266;
-            splitContainer1.TabIndex = 1;
-            // 
-            // valueLabel
-            // 
-            valueLabel.AutoSize = true;
-            valueLabel.Location = new Point(5, 6);
-            valueLabel.Name = "valueLabel";
-            valueLabel.Size = new Size(226, 15);
-            valueLabel.TabIndex = 0;
-            valueLabel.Text = "Select an entry on the left to view its data.";
+            splitContainer.Panel2.AutoScroll = true;
+            splitContainer.Panel2.Padding = new Padding(3);
+            splitContainer.Size = new Size(800, 450);
+            splitContainer.SplitterDistance = 266;
+            splitContainer.TabIndex = 1;
             // 
             // fileToolStripMenuItem
             // 
@@ -108,22 +97,19 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(splitContainer1);
+            Controls.Add(splitContainer);
             Name = "EditorPage";
             Size = new Size(800, 450);
-            splitContainer1.Panel1.ResumeLayout(false);
-            splitContainer1.Panel2.ResumeLayout(false);
-            splitContainer1.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
-            splitContainer1.ResumeLayout(false);
+            splitContainer.Panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)splitContainer).EndInit();
+            splitContainer.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
 
         private TreeView gamedataTree;
-        private SplitContainer splitContainer1;
-        private Label valueLabel;
+        private SplitContainer splitContainer;
         private ToolStripMenuItem fileToolStripMenuItem;
         private ToolStripMenuItem saveToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator1;
