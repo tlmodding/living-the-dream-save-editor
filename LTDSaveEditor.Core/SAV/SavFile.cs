@@ -12,9 +12,12 @@ public class SavFile
     public int Version { get; set; }
 
     public Dictionary<uint, SavFileEntry> Entries = [];
+    public string Path { get; set; }
 
-    public SavFile(Stream stream)
+    public SavFile(string path, Stream stream)
     {
+        Path = path;
+
         using var reader = new BinaryReader(stream);
 
         var magic = reader.ReadByteArray(4);
@@ -90,5 +93,11 @@ public class SavFile
         {
             item.ResolvePointer();
         }
+    }
+    
+    public void SaveTo(string path)
+    {
+        using var writeStream = File.Create(path);
+            Save(writeStream);
     }
 }

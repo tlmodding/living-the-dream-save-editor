@@ -27,12 +27,12 @@ public class SaveInstance
         var mapSave = Path.Combine(folder, "Map.sav");
 
         using var playerStream = File.OpenRead(playerSave);
-        Player = new SavFile(playerStream);
+        Player = new SavFile(playerSave, playerStream);
 
         using var miiStream = File.OpenRead(miiSave);
-        Mii = new SavFile(miiStream);
+        Mii = new SavFile(playerSave, miiStream);
 
         using var mapStream = File.OpenRead(mapSave);
-        Map = new SavFile(mapStream);
+        Map = new SavFile(playerSave, mapStream);
     }
 }
