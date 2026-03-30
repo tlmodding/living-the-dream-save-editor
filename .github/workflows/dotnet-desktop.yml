@@ -94,16 +94,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./ModManager-Windows.zip
-          asset_name: ModManager-Windows.zip
-          asset_content_type: application/zip
-
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./LTDSaveEditor-Windows.zip
           asset_name: LTDSaveEditor-Windows.zip
           asset_content_type: application/zip
