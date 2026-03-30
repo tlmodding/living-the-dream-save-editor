@@ -1,0 +1,120 @@
+name: Build and Release
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    outputs:
+      version: ${{ steps.get_version.outputs.version }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build solution
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Publish WinForms
+        run: dotnet publish LTDSaveEditor.WinForms/LTDSaveEditor.WinForms.csproj `
+              -c Release `
+              -r win-x64 `
+              --self-contained false `
+              -o publish
+
+      - name: Compress artifacts
+        run: |
+          Compress-Archive -Path publish\* -DestinationPath LTDSaveEditor-Windows.zip
+        shell: pwsh
+
+      - name: Publish application (self-contained)
+        run: dotnet publish LTDSaveEditor.WinForms/LTDSaveEditor.WinForms.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -o selfcontained
+
+      - name: Compress artifacts (self-contained)
+        run: |
+          Compress-Archive -Path selfcontained\* -DestinationPath LTDSaveEditor-Windows-selfcontained.zip
+        shell: pwsh
+
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: LTDSaveEditor-Windows
+          path: LTDSaveEditor-Windows.zip
+
+      - name: Upload self-contained artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: LTDSaveEditor-Windows-selfcontained
+          path: LTDSaveEditor-Windows-selfcontained.zip
+
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: LTDSaveEditor-Windows
+
+      - name: Download self-contained artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: LTDSaveEditor-Windows-selfcontained
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: "Build_${{ github.run_number }}"
+          release_name: "(Automatic) Build ${{ github.run_number }}"
+          body: "Automated release for commit ${{ github.sha }}"
+          draft: false
+          prerelease: true
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./ModManager-Windows.zip
+          asset_name: ModManager-Windows.zip
+          asset_content_type: application/zip
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./LTDSaveEditor-Windows.zip
+          asset_name: LTDSaveEditor-Windows.zip
+          asset_content_type: application/zip
+
+      - name: Upload Release Asset (Self-Contained)
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./LTDSaveEditor-Windows-selfcontained.zip
+          asset_name: LTDSaveEditor-Windows-selfcontained.zip
+          asset_content_type: application/zip
+
