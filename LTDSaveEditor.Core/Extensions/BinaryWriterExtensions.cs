@@ -7,11 +7,13 @@ public static class BinaryWriterExtensions
 {
     extension(BinaryWriter writer)
     {
-        public void WriteWString(string value, int maxLength)
+        public void Write(string value, int maxLength, Encoding encoding)
         {
-            var b = Encoding.Unicode.GetBytes(value);
-            Array.Resize(ref b, maxLength);
-            writer.Write(b);
+            var bytes = encoding.GetBytes(value);
+            writer.Write(bytes, 0, Math.Min(bytes.Length, maxLength));
+
+            if (bytes.Length < maxLength)
+                writer.Pad(maxLength - bytes.Length);
         }
 
         public WriterScopePointer CreatePointer()
@@ -40,12 +42,9 @@ public sealed class WriterScopePointer(BinaryWriter writer, long position)
             writer.WriteAt(Position, pos);
     }
 
-    public void Resolve(Action<BinaryWriter> action, long? relativePosition = null)
+    public void Resolve(Action<BinaryWriter> action)
     {
         var pos = (uint) writer.Position;
-        if (relativePosition.HasValue)
-            pos -= (uint)relativePosition.Value;
-        else pos -= (uint)Position;
 
         action(writer);
 

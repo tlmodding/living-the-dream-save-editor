@@ -10,7 +10,6 @@ public class SavFile
     public static readonly byte[] Magic = [4, 3, 2, 1];
 
     public int Version { get; set; }
-    public int SaveDataOffset { get; set; }
 
     public Dictionary<uint, SavFileEntry> Entries = [];
 
@@ -24,12 +23,12 @@ public class SavFile
             throw new Exception("Invalid save file format.");
 
         Version = reader.ReadInt32();
-        SaveDataOffset = reader.ReadInt32();
+        var saveDataOffset = reader.ReadInt32();
 
         reader.Align(0x20);
 
         var currentData = DataType.Bool;
-        while (reader.BaseStream.Position < SaveDataOffset)
+        while (reader.BaseStream.Position < saveDataOffset)
         {
             var hash = reader.ReadUInt32();
             if (hash == 0)
@@ -61,19 +60,22 @@ public class SavFile
 
         writer.Write(Magic);
         writer.Write(Version);
-        var pointer = writer.CreatePointer();
+        var saveDataOffset = writer.CreatePointer();
 
         writer.Align(0x20);
 
-        var dataTypes = Enum.GetValues<DataType>();
         var entries = new List<SavFileEntry>();
-        foreach(var dataType in dataTypes)
+        var dataTypes = Enum.GetValues<DataType>();
+
+        foreach(var currentData in dataTypes)
         {
-            writer.Write(0u);
-            writer.Write((uint) dataType);
+            // Declare the current data type section
+            writer.Write(0);
+            writer.Write((uint) currentData);
 
-            var values = Entries.Values.Where(e => e.DataType == dataType);
+            var values = Entries.Values.Where(e => e.DataType == currentData);
 
+            // Write all entries of the current data type
             foreach (var item in values)
             {
                 writer.Write(item.Hash);
@@ -82,11 +84,11 @@ public class SavFile
             }
         }
 
-        pointer.Resolve((uint) writer.Position);
+        saveDataOffset.Resolve((uint) writer.Position);
 
         foreach (var item in entries)
         {
-            item.WritePointer();
+            item.ResolvePointer();
         }
     }
 }

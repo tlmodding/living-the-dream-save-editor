@@ -1,4 +1,5 @@
-﻿using LTDSaveEditor.Core.Extensions;
+﻿using AeonSake.BinaryTools;
+using LTDSaveEditor.Core.Extensions;
 using LTDSaveEditor.Core.Types;
 using System.Text;
 using BinaryReader = AeonSake.BinaryTools.BinaryReader;
@@ -27,16 +28,37 @@ public class SavFileEntry
 
             if (type.IsArray())
             {
-                var singleType = type.ToSingle();
                 using (reader.CreateScopeAt(offset))
                 {
                     uint count = reader.ReadUInt32();
 
-                    var array = new object[count];
-                    for (uint i = 0; i < count; i++)
-                        array[i] = ReadValue(reader, singleType);
+                    if (DataType == DataType.BoolArray)
+                    {   
+                        var values = new bool[count];
 
-                    Value = array;
+                        var byteSize = (int)Math.Ceiling(Math.Max(4, count / 8d));
+                        byte[] bitBytes = reader.ReadByteArray(byteSize);
+
+                        for (int i = 0; i < count; i++)
+                        {
+                            int byteIndex = i / 8;
+                            int bitIndex = i % 8;
+
+                            values[i] = BitHelper.IsSet(bitBytes[byteIndex], bitIndex);
+                        }
+
+                        Value = values;
+                    } 
+                    else
+                    {
+                        var singleType = type.ToSingle();
+
+                        var array = new object[count];
+                        for (uint i = 0; i < count; i++)
+                            array[i] = ReadValue(reader, singleType);
+
+                        Value = array;
+                    }
                 }
             }
             else 
@@ -70,7 +92,7 @@ public class SavFileEntry
         DataType.WString32 => reader.ReadString(32 * 2, Encoding.Unicode),
         DataType.WString64 => reader.ReadString(64 * 2, Encoding.Unicode),
         DataType.Bool64bitKey => null!, // Not present in Tomodachi Life
-        _ => throw new NotImplementedException($"Reading for {type} is not implemented."),
+        _ => type.IsArray() ? throw new Exception($"Tried to read an array in {nameof(ReadValue)}") : throw new NotImplementedException($"Reading for {type} is not implemented."),
     };
 
     public static void WriteValue(BinaryWriter writer, DataType type, object? value)
@@ -99,10 +121,13 @@ public class SavFileEntry
                 ((Vector3)value).Write(writer);
                 break;
             case DataType.String16:
+                writer.Write((string)value, 16, Encoding.UTF8);
+                break;
             case DataType.String32:
+                writer.Write((string)value, 32, Encoding.UTF8);
+                break;
             case DataType.String64:
-                // TODO: Add safe checks for string length and throw if it exceeds the max length for the type
-                writer.Write((string)value);
+                writer.Write((string)value, 64, Encoding.UTF8);
                 break;
             case DataType.Binary:
                 ((Binary)value).Write(writer);
@@ -117,17 +142,19 @@ public class SavFileEntry
                 writer.Write((ulong)value);
                 break;
             case DataType.WString16:
-                writer.WriteWString((string)value, 16 * 2);
+                writer.Write((string)value, 16, Encoding.Unicode);
                 break;
             case DataType.WString32:
-                writer.WriteWString((string)value, 32 * 2);
+                writer.Write((string)value, 32, Encoding.Unicode);
                 break;
             case DataType.WString64:
-                writer.WriteWString((string)value, 64 * 2);
+                writer.Write((string)value, 64, Encoding.Unicode);
                 break;
 
             default:
-                throw new NotImplementedException($"Writing for {type} is not implemented.");
+                if (type.IsArray())
+                    throw new NotImplementedException($"Tried to write an array in {nameof(WriteValue)}");
+                else throw new NotImplementedException($"Writing for {type} is not implemented.");
         }
     }
 
@@ -144,23 +171,50 @@ public class SavFileEntry
         }
     }
 
-    internal void WritePointer()
+    internal void ResolvePointer()
     {
         if (DataType == DataType.Bool64bitKey && Value == null) return;
 
         scopePointer?.Resolve(w =>
         {
-            if (DataType.IsArray() && Value is Array array)
+            if (DataType.IsArray())
             {
+                if (Value is not Array array)
+                    throw new Exception($"Expected an array value for hash {Hash:X} ({DataType}) but got {Value?.GetType().Name ?? "null"}");
+
                 w.Write(array.Length);
 
-                foreach (var item in array)
-                    WriteValue(w, DataType.ToSingle(), item);
+                if (DataType == DataType.BoolArray)
+                {
+                    if (Value is not bool[] boolArray)
+                        throw new Exception($"Expected a bool[] value for hash {Hash:X} but got {Value?.GetType().Name ?? "null"}");
+
+                    var byteSize = (int)Math.Ceiling(Math.Max(4, array.Length / 8d));
+                    byte[] bitBytes = new byte[byteSize];
                     
+                    for (int i = 0; i < array.Length; i++)
+                    {
+                        if (boolArray[i])
+                        {
+                            int byteIndex = i / 8;
+                            int bitIndex = i % 8;
+
+                            BitHelper.Set(bitBytes[byteIndex], bitIndex);
+                        }
+                    }
+
+                    w.Write(bitBytes);
+
+                }
+                else
+                {
+                    foreach (var item in array)
+                        WriteValue(w, DataType.ToSingle(), item);
+                }
             } else
             {
                 WriteValue(w, DataType, Value);
             }
-        }, 0);
+        });
     }
 }

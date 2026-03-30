@@ -29,7 +29,8 @@ public partial class EditorPage : UserControl
                 for (int i = 0; i < list.Count; i++)
                 {
                     object? item = list[i];
-                    arrayValues.Add($"{i}: {item?.ToString() ?? "null"}");
+                    var val = entry.DataType == DataType.EnumArray && item is uint enumHash ? enumHash.ToString("X") : item?.ToString();
+                    arrayValues.Add($"{i}: {val ?? "null"}");
                 }
 
                 valueLabel.Text = $"Hash: {hash:X} | Type: {entry.DataType}[{array.Length}]:\n{string.Join('\n', arrayValues)}\n\n";
@@ -82,7 +83,7 @@ public partial class EditorPage : UserControl
 
             if (entry.Value is Array array)
                 currentNode.Text += $" ({entry.DataType}[{array.Length}])";
-            else 
+            else
                 currentNode.Text += $" ({entry.Value})";
             currentNode.Tag = hash;
         }
