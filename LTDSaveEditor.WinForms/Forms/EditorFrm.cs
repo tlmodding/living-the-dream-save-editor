@@ -47,6 +47,7 @@ public partial class EditorFrm : Form
         };
 
         closeToolStripMenuItem.Click += (_, _) => Close();
+        optionsToolStripMenuItem.Click += (_, _) => new OptionsFrm().ShowDialog();
 
         dockPanel.Theme = new VS2015DarkTheme();
         var playerTab = CreateTab("Player", SaveInstance.Player);

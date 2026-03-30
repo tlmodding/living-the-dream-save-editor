@@ -1,5 +1,6 @@
 ﻿using LTDSaveEditor.Core;
 using LTDSaveEditor.Core.SAV;
+using LTDSaveEditor.WinForms.Settings;
 using LTDSaveEditor.WinForms.Utility;
 
 namespace LTDSaveEditor.WinForms.Forms;
@@ -16,8 +17,6 @@ public partial class EditorPage : UserControl
         Load += async (_, _) => LoadGameData();
     }
 
-
-    private static readonly Brush RowHeaderBrush = new SolidBrush(Color.FromArgb(255, 255, 255));
 
     private static readonly StringFormat RowHeaderStringFormat = new()
     {
@@ -36,8 +35,6 @@ public partial class EditorPage : UserControl
             if (control is IDisposable disposable)
                 disposable.Dispose();
         }
-
-
 
         if (SaveFile.TryGetValue(hash, out var entry))
         {
@@ -89,6 +86,29 @@ public partial class EditorPage : UserControl
                 column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 dgv.Columns.Add(column);
 
+                dgv.EditingControlShowing += (s, e) =>
+                {
+                    if (e.Control is TextBox textBox && entry.DataType is DataType.EnumArray)
+                    {
+                        if (dgv.CurrentCell == null) return;
+
+                        var value = array.GetValue(dgv.CurrentCell.RowIndex);
+                        if (value != null) textBox.Text = value.ToString();
+                    }
+                };
+
+                dgv.CellFormatting += (s, e) =>
+                {
+                    if (entry.DataType is DataType.EnumArray && array.GetValue(e.RowIndex) is uint enumHash)
+                    {
+                        e.Value = UserOptions.Instance.EnumDisplayMode switch
+                        {
+                            EnumDisplayMode.Name or EnumDisplayMode.Hash => enumHash.ToString("X"),
+                            EnumDisplayMode.Number => enumHash.ToString(),
+                            _ => throw new NotImplementedException(),
+                        };
+                    }
+                };
 
                 dgv.CellValueNeeded += (s, e) => e.Value = array.GetValue(e.RowIndex);
                 dgv.CellValuePushed += (s, e) =>
@@ -114,6 +134,25 @@ public partial class EditorPage : UserControl
                 column.HeaderText = name;
                 column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 dgv.Columns.Add(column);
+
+                dgv.EditingControlShowing += (s, e) =>
+                {
+                    if (e.Control is TextBox textBox && entry.DataType is DataType.Enum)
+                        textBox.Text = entry.Value?.ToString();
+                };
+
+                dgv.CellFormatting += (s, e) =>
+                {
+                    if (entry.DataType is DataType.Enum && entry.Value is uint enumHash)
+                    {
+                        e.Value = UserOptions.Instance.EnumDisplayMode switch
+                        {
+                            EnumDisplayMode.Name or EnumDisplayMode.Hash => enumHash.ToString("X"),
+                            EnumDisplayMode.Number => enumHash.ToString(),
+                            _ => throw new NotImplementedException(),
+                        };
+                    }
+                };
 
                 dgv.CellValueNeeded += (s, e) => e.Value = entry.Value;
                 dgv.CellValuePushed += (s, e) =>
@@ -193,7 +232,7 @@ public partial class EditorPage : UserControl
             if (entry.Value is Array array)
                 currentNode.Text += $" ({entry.DataType}[{array.Length}])";
             else
-                currentNode.Text += $" ({entry.Value})";
+                currentNode.Text += $" ({entry.DataType})";
             currentNode.Tag = hash;
         }
 

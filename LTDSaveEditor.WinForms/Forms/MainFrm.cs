@@ -1,5 +1,6 @@
 using LTDSaveEditor.Core;
 using LTDSaveEditor.WinForms.Forms;
+using LTDSaveEditor.WinForms.Settings;
 using LTDSaveEditor.WinForms.Utility;
 
 namespace LTDSaveEditor.WinForms;
@@ -22,26 +23,13 @@ public partial class MainFrm : Form
         DragEnter += MainFrm_DragEnter;
         DragDrop += OnFileDropped;
         Click += MainFrm_Click;
-
-        if (!HashManager.IsInitialized)
-        {
-            var path = Path.Combine("Data", "GameDataListFull.csv");
-
-            if (File.Exists(path))
-                HashManager.Initialize(path);
-            else
-            {
-                WinFormsUtility.ErrorMessage("Failed to load hashes. The file 'GameDataListFull.csv' was not found in the 'Data' folder.");
-                Close();
-            }
-        }
     }
 
     public string[] RequiredFiles = [
         "Map.sav", "Mii.sav", "Player.sav"
     ];
 
-    private void MainFrm_Click(object? sender, EventArgs e)
+    private async void MainFrm_Click(object? sender, EventArgs e)
     {
         var openFolderDialog = new FolderBrowserDialog();
 
@@ -57,16 +45,18 @@ public partial class MainFrm : Form
             e.Effect = DragDropEffects.None;
     }
 
-    private void OnFileDropped(object? sender, DragEventArgs e)
+    private async void OnFileDropped(object? sender, DragEventArgs e)
     {
         if(e.Data?.GetData(DataFormats.FileDrop) is string[] paths && paths.Length > 0)
             ValidateAndOpenSave(paths[0]);
     }
 
-    private void ValidateAndOpenSave(string saveFolder)
+    private async void ValidateAndOpenSave(string saveFolder)
     {
         if (!ValidateSaveFolder(saveFolder))
             return;
+
+        UserOptions.Instance.LastSaveFolder = saveFolder;
 
         var saveInstance = SaveInstance.FromFolder(saveFolder);
         var editorFrm = new EditorFrm(saveInstance);

@@ -34,8 +34,8 @@
             saveToolStripMenuItem = new ToolStripMenuItem();
             toolStripSeparator1 = new ToolStripSeparator();
             closeToolStripMenuItem = new ToolStripMenuItem();
-            dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             optionsToolStripMenuItem = new ToolStripMenuItem();
+            dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -59,19 +59,25 @@
             // 
             saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             saveToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.S;
-            saveToolStripMenuItem.Size = new Size(180, 22);
+            saveToolStripMenuItem.Size = new Size(138, 22);
             saveToolStripMenuItem.Text = "Save";
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(177, 6);
+            toolStripSeparator1.Size = new Size(135, 6);
             // 
             // closeToolStripMenuItem
             // 
             closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            closeToolStripMenuItem.Size = new Size(180, 22);
+            closeToolStripMenuItem.Size = new Size(138, 22);
             closeToolStripMenuItem.Text = "Close";
+            // 
+            // optionsToolStripMenuItem
+            // 
+            optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+            optionsToolStripMenuItem.Size = new Size(61, 20);
+            optionsToolStripMenuItem.Text = "Options";
             // 
             // dockPanel
             // 
@@ -80,12 +86,6 @@
             dockPanel.Name = "dockPanel";
             dockPanel.Size = new Size(800, 426);
             dockPanel.TabIndex = 3;
-            // 
-            // optionsToolStripMenuItem
-            // 
-            optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            optionsToolStripMenuItem.Size = new Size(61, 20);
-            optionsToolStripMenuItem.Text = "Options";
             // 
             // EditorFrm
             // 
