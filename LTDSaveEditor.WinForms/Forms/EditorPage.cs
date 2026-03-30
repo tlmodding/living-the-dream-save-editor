@@ -196,6 +196,8 @@ public partial class EditorPage : UserControl
                 currentNode.Text += $" ({entry.Value})";
             currentNode.Tag = hash;
         }
+
+        gamedataTree.Sort();
         gamedataTree.EndUpdate();
     }
 }
