@@ -21,6 +21,7 @@ public partial class MainFrm : Form
         AllowDrop = true;
         DragEnter += MainFrm_DragEnter;
         DragDrop += OnFileDropped;
+        Click += MainFrm_Click;
 
         if (!HashManager.IsInitialized)
         {
@@ -36,35 +37,44 @@ public partial class MainFrm : Form
         }
     }
 
+    public string[] RequiredFiles = [
+        "Map.sav", "Mii.sav", "Player.sav"
+    ];
+
+    private void MainFrm_Click(object? sender, EventArgs e)
+    {
+        var openFolderDialog = new FolderBrowserDialog();
+
+        if (openFolderDialog.ShowDialog() == DialogResult.OK)
+            ValidateAndOpenSave(openFolderDialog.SelectedPath);
+    }
+
     private void MainFrm_DragEnter(object? sender, DragEventArgs e)
     {
         if (e.Data != null && e.Data.GetDataPresent(DataFormats.FileDrop))
             e.Effect = DragDropEffects.Copy;
         else
             e.Effect = DragDropEffects.None;
-        
     }
 
     private void OnFileDropped(object? sender, DragEventArgs e)
     {
         if(e.Data?.GetData(DataFormats.FileDrop) is string[] paths && paths.Length > 0)
-        {
-            var path = paths[0];
-            if (ValidateSaveFolder(path))
-            {
-                var saveInstance = SaveInstance.FromFolder(path);
-                var editorFrm = new EditorFrm(saveInstance);
-                editorFrm.Show();
-                Program.AppContext.ChangeMainForm(editorFrm);
-                Close();
-                editorFrm.Activate();
-            }
-        }
+            ValidateAndOpenSave(paths[0]);
     }
 
-    public string[] RequiredFiles = [
-        "Map.sav", "Mii.sav", "Player.sav"
-    ];
+    private void ValidateAndOpenSave(string saveFolder)
+    {
+        if (!ValidateSaveFolder(saveFolder))
+            return;
+
+        var saveInstance = SaveInstance.FromFolder(saveFolder);
+        var editorFrm = new EditorFrm(saveInstance);
+        editorFrm.Show();
+        Program.AppContext.ChangeMainForm(editorFrm);
+        Close();
+        editorFrm.Activate();
+    }
 
     public bool ValidateSaveFolder(string saveFolder)
     {
