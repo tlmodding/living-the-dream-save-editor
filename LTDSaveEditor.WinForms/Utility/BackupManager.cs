@@ -1,11 +1,11 @@
-﻿using System.IO.Compression;
+﻿using LTDSaveEditor.WinForms.Settings;
+using System.IO.Compression;
 
-namespace LTDSaveEditor.Core;
+namespace LTDSaveEditor.WinForms.Utility;
 
 public class BackupManager
 {
     public string BackupDirectory { get; }
-    public int MaxBackups { get; set; } = 10;
 
     public BackupManager(string path)
     {
@@ -48,10 +48,10 @@ public class BackupManager
             .OrderByDescending(f => f.CreationTime)
             .ToList();
 
-        if (backupFiles.Count <= MaxBackups)
+        if (backupFiles.Count <= UserOptions.Instance.MaximumBackups)
             return;
 
-        var filesToDelete = backupFiles.Skip(MaxBackups);
+        var filesToDelete = backupFiles.Skip(UserOptions.Instance.MaximumBackups);
 
         foreach (var file in filesToDelete)
         {

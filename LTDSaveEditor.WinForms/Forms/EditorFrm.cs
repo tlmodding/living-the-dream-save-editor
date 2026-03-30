@@ -48,6 +48,8 @@ public partial class EditorFrm : Form
 
         closeToolStripMenuItem.Click += (_, _) => Close();
         optionsToolStripMenuItem.Click += (_, _) => new OptionsFrm().ShowDialog();
+        discordToolStripMenuItem.Click += (_, _) => WinFormsUtility.OpenUrl("https://discord.gg/YHFNTvXrdE");
+        wikiToolStripMenuItem.Click += (_, _) => WinFormsUtility.OpenUrl("https://tlmodding.github.io/");
 
         dockPanel.Theme = new VS2015DarkTheme();
         var playerTab = CreateTab("Player", SaveInstance.Player);

@@ -35,13 +35,16 @@
             toolStripSeparator1 = new ToolStripSeparator();
             closeToolStripMenuItem = new ToolStripMenuItem();
             optionsToolStripMenuItem = new ToolStripMenuItem();
+            helpToolStripMenuItem = new ToolStripMenuItem();
+            discordToolStripMenuItem = new ToolStripMenuItem();
+            wikiToolStripMenuItem = new ToolStripMenuItem();
             dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, optionsToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, optionsToolStripMenuItem, helpToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(800, 24);
@@ -79,6 +82,25 @@
             optionsToolStripMenuItem.Size = new Size(61, 20);
             optionsToolStripMenuItem.Text = "Options";
             // 
+            // helpToolStripMenuItem
+            // 
+            helpToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { discordToolStripMenuItem, wikiToolStripMenuItem });
+            helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            helpToolStripMenuItem.Size = new Size(44, 20);
+            helpToolStripMenuItem.Text = "Help";
+            // 
+            // discordToolStripMenuItem
+            // 
+            discordToolStripMenuItem.Name = "discordToolStripMenuItem";
+            discordToolStripMenuItem.Size = new Size(180, 22);
+            discordToolStripMenuItem.Text = "Discord";
+            // 
+            // wikiToolStripMenuItem
+            // 
+            wikiToolStripMenuItem.Name = "wikiToolStripMenuItem";
+            wikiToolStripMenuItem.Size = new Size(180, 22);
+            wikiToolStripMenuItem.Text = "Wiki";
+            // 
             // dockPanel
             // 
             dockPanel.Dock = DockStyle.Fill;
@@ -112,5 +134,8 @@
         private ToolStripMenuItem closeToolStripMenuItem;
         private WeifenLuo.WinFormsUI.Docking.DockPanel dockPanel;
         private ToolStripMenuItem optionsToolStripMenuItem;
+        private ToolStripMenuItem helpToolStripMenuItem;
+        private ToolStripMenuItem discordToolStripMenuItem;
+        private ToolStripMenuItem wikiToolStripMenuItem;
     }
 }

@@ -229,10 +229,13 @@ public partial class EditorPage : UserControl
             if (entry.DataType == DataType.Bool64bitKey && entry.Value == null)
                 continue;
 
-            if (entry.Value is Array array)
-                currentNode.Text += $" ({entry.DataType}[{array.Length}])";
-            else
-                currentNode.Text += $" ({entry.DataType})";
+            if (UserOptions.Instance.ShowFlagType)
+            {
+                if (entry.Value is Array array)
+                    currentNode.Text += $" ({entry.DataType}[{array.Length}])";
+                else
+                    currentNode.Text += $" ({entry.DataType})";
+            }
             currentNode.Tag = hash;
         }
 
