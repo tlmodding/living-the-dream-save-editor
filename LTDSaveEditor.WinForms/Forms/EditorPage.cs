@@ -37,7 +37,7 @@ public partial class EditorPage : UserControl
                 disposable.Dispose();
         }
 
-        if (SaveFile.TryGetValue(hash, out var entry))
+        if (SaveFile.TryGetEntry(hash, out var entry))
         {
             var data = HashManager.TryGetData(hash, out var d) ? d : null;
             var name = data?.Name ?? "< Unknown >";

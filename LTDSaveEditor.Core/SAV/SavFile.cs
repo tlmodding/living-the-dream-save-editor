@@ -45,7 +45,7 @@ public class SavFile
         }
     }
 
-    public bool TryGetValue(uint hash, [MaybeNullWhen(false)] out SavFileEntry entry)
+    public bool TryGetEntry(uint hash, [MaybeNullWhen(false)] out SavFileEntry entry)
     {
         if (Entries.TryGetValue(hash, out var val))
         {
@@ -55,6 +55,35 @@ public class SavFile
 
         entry = null;
         return false;
+    }
+
+
+    public bool TryGetValue<T>(string name, [MaybeNullWhen(false)] out T value) where T : struct => TryGetValue(name.ToMurmur(), out value);
+    public bool TryGetValue<T>(uint hash, [MaybeNullWhen(false)] out T value) where T : struct
+    {
+        if (Entries.TryGetValue(hash, out var entry))
+        {
+            if (entry.Value is not T val)
+                throw new Exception("Entry doesn't match expected value type!");
+
+            value = val;
+            return true;
+        }
+
+        value = default;
+        return false;
+    }
+
+    public void SetValue<T>(string name, T value) where T : struct => SetValue(name.ToMurmur(), value);
+    public void SetValue<T>(uint hash, T value) where T : struct
+    {
+        if (Entries.TryGetValue(hash, out var entry))
+        {
+            if (entry.Value is not T)
+                throw new Exception("Entry doesn't match expected value type!");
+
+            entry.Value = value;
+        }
     }
 
     public void Save(Stream stream)
