@@ -1,0 +1,83 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:LTDSaveEditor.Avalonia.Views"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="LTDSaveEditor.Avalonia.Views.EditorPageControl">
+
+    <Grid ColumnDefinitions="300, 4, *">
+        <!-- Sidebar: Navigation -->
+        <Border Grid.Column="0" BorderBrush="{DynamicResource DividerStrokeColorDefaultBrush}" BorderThickness="0,0,1,0">
+            <TreeView Name="GameDataTree"
+                      SelectionMode="Single"
+                      SelectionChanged="GameDataTree_SelectionChanged"
+                      Padding="5,5,5,5">
+                <TreeView.ItemTemplate>
+                    <TreeDataTemplate DataType="local:TreeViewNode" ItemsSource="{Binding Nodes}">
+                        <TextBlock Text="{Binding Label}" />
+                    </TreeDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
+        </Border>
+
+        <GridSplitter Grid.Column="1" Background="Transparent" />
+
+        <!-- Main Workspace: Data Grid -->
+        <Border Grid.Column="2" Padding="5" Background="{DynamicResource SolidBackgroundFillColorQuarternaryBrush}">
+            <Grid RowDefinitions="Auto, *">
+                <StackPanel Orientation="Horizontal" Spacing="20">
+                    <TextBlock Name="EntryTitle" 
+                               FontSize="20" FontWeight="Bold" 
+                               Foreground="{DynamicResource AccentFillColorDefaultBrush}"
+                               VerticalAlignment="Center"
+                               Text="Select an entry to edit" />
+                    
+                    <StackPanel Name="BulkEditSection" Orientation="Horizontal" Spacing="10" IsVisible="False" VerticalAlignment="Center">
+                        <Border Width="1" Height="20" Background="{DynamicResource DividerStrokeColorDefaultBrush}" Margin="0,0,10,0" />
+                        <TextBlock Text="Bulk Edit:" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                        <TextBox Name="BulkValueInput" Width="100" />
+                        <ComboBox Name="BulkEnumInput" Width="200" IsVisible="False">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate x:DataType="local:EnumOption">
+                                    <TextBlock Text="{Binding Label}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <Button Name="BulkApplyButton" Content="Apply" Click="BulkApplyButton_Click" Theme="{StaticResource AccentButtonStyle}" />
+                    </StackPanel>
+                </StackPanel>
+                
+                <DataGrid Grid.Row="1"
+                          Name="EntryDataGrid"
+                          AutoGenerateColumns="False"
+                          HeadersVisibility="All"
+                          GridLinesVisibility="All"
+                          BorderThickness="1"
+                          RowHeaderWidth="40"
+                          ColumnHeaderHeight="32"
+                          CornerRadius="4"
+                          Margin="0 5 0 0"
+                          Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"
+                          BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}"
+                          SelectionMode="Extended">
+                    <DataGrid.Styles>
+                        <Style Selector="DataGridColumnHeader">
+                            <Setter Property="Background" Value="{DynamicResource SolidBackgroundFillColorSecondaryBrush}" />
+                            <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
+                            <Setter Property="FontWeight" Value="Bold" />
+                            <Setter Property="Padding" Value="10,0" />
+                            <Setter Property="SeparatorBrush" Value="{DynamicResource DividerStrokeColorDefaultBrush}" />
+                        </Style>
+                        <Style Selector="DataGridRowHeader">
+                            <Setter Property="Background" Value="{DynamicResource SolidBackgroundFillColorSecondaryBrush}" />
+                        </Style>
+                        <Style Selector="DataGridCell">
+                            <Setter Property="Padding" Value="10,0" />
+                        </Style>
+                    </DataGrid.Styles>
+                </DataGrid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

@@ -1,0 +1,50 @@
+<window:AppWindow xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ui="using:FluentAvalonia.UI.Controls"
+        xmlns:local="using:LTDSaveEditor.Avalonia.Views"
+        xmlns:window="using:FluentAvalonia.UI.Windowing"
+        mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="700"
+        x:Class="LTDSaveEditor.Avalonia.Views.EditorWindow"
+        Title="Living the Dream: Save Editor"
+        Width="1000" Height="700"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"
+        Icon="avares://LTDSaveEditor.Avalonia/Assets/app.ico">
+    
+    <DockPanel>
+        <Border DockPanel.Dock="Top" Height="40" Background="{DynamicResource AppBackgroundBrush}">
+            <StackPanel Orientation="Horizontal">
+                <Image Source="avares://LTDSaveEditor.Avalonia/Assets/Logo.png" Height="25" Margin="10 0 0 0"/>
+                <Menu VerticalAlignment="Center">
+                    <MenuItem Header="File">
+                        <MenuItem Header="Save" Name="SaveMenu" Click="SaveMenu_Click" HotKey="Ctrl+S">
+                            <MenuItem.Icon>
+                                <ui:SymbolIcon Symbol="Save" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Refresh" Name="RefreshMenu" Click="RefreshMenu_Click" HotKey="Ctrl+R">
+                            <MenuItem.Icon>
+                                <ui:SymbolIcon Symbol="Refresh" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <Separator />
+                        <MenuItem Header="Exit" Name="ExitMenu" Click="ExitMenu_Click" />
+                    </MenuItem>
+                    <MenuItem Header="Help">
+                        <MenuItem Header="Discord" Name="DiscordMenu" Click="DiscordMenu_Click" />
+                        <MenuItem Header="Wiki" Name="WikiMenu" Click="WikiMenu_Click" />
+                    </MenuItem>
+                </Menu>
+            </StackPanel>
+        </Border>
+
+        <ui:TabView x:Name="EditorTabView" 
+                    CanReorderTabs="False" 
+                    Padding="0"
+                    VerticalAlignment="Stretch">
+            <!-- Tabs will be added programmatically -->
+        </ui:TabView>
+    </DockPanel>
+</window:AppWindow>
