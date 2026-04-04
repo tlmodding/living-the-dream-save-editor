@@ -1,0 +1,43 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ui="using:FluentAvalonia.UI.Controls"
+        mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="400"
+        x:Class="LTDSaveEditor.Avalonia.Views.MainWindow"
+        Title="LTD Save Editor"
+        Width="600" Height="400"
+        WindowStartupLocation="CenterScreen"
+        Background="Transparent"
+        TransparencyLevelHint="Mica"
+        ExtendClientAreaToDecorationsHint="True">
+
+    <Grid DragDrop.AllowDrop="True">
+        <Border Background="{DynamicResource SolidBackgroundFillColorBaseBrush}" Opacity="0.8" CornerRadius="12" Margin="20">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="20">
+                <ui:SymbolIcon Symbol="Folder" FontSize="64" Foreground="{DynamicResource AccentFillColorDefaultBrush}" />
+                
+                <TextBlock Text="Living the Dream Save Editor" 
+                           FontSize="24" FontWeight="Bold" 
+                           HorizontalAlignment="Center" />
+                
+                <TextBlock Text="Select your save folder or drop it here" 
+                           FontSize="16" Foreground="{DynamicResource TextFillColorSecondaryBrush}" 
+                           HorizontalAlignment="Center" />
+                
+                <Button Name="SelectFolderButton" 
+                        Content="Choose Folder" 
+                        Classes="accent" 
+                        Padding="20,10" 
+                        HorizontalAlignment="Center" 
+                        Click="SelectFolderButton_Click"/>
+
+                <TextBlock Name="StatusText" 
+                           Text="" 
+                           Foreground="Red" 
+                           HorizontalAlignment="Center" 
+                           TextWrapping="Wrap" />
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>
