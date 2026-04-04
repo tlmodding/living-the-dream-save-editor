@@ -1,5 +1,5 @@
 E0D319F5,3771931125,Binary,Childcare.Pending.CharInfoEx
-A279320C,2725851660,Binary,Player.<Unknown_CB8A4231>
+A279320C,2725851660,Binary,Player.LastClockSnapshot
 114EFF89,0290389897,Binary,UGC.SuspendMii.CharInfoEx
 881CA27A,2283577978,BinaryArray,Mii.CharInfoEx
 FE434951,4265822545,BinaryArray,Mii.MiiMisc.EatInfo.GivenFlag
@@ -3391,7 +3391,7 @@ D9276E3A,3643239994,Int,Player.<Unknown_C6DCE61A>
 4743F115,1195634965,Int,Trial.PresentCoordinateColor
 05FE2411,0100541457,Int,UGC.Editor.Setting.<Unknown_027D7033>
 B5B0AD29,3048254761,Int,UGC.SuspendData.UvPatternIdx
-00BC09B7,0012323255,Int,UGC.SuspendMii.<Unknown_23796DA8>
+00BC09B7,0012323255,Int,UGC.SuspendMii.ImportHeadwearColorIndex
 E6644DC4,3865333188,IntArray,Childcare.Pending.ParentMiiIndex
 AC6F0D0E,2892958990,IntArray,Childcare.Reserve.ParentMiiIndex
 0B5276E9,0189953769,IntArray,House.MapId
@@ -3404,7 +3404,7 @@ AC6F0D0E,2892958990,IntArray,Childcare.Reserve.ParentMiiIndex
 B3AB615B,3014353243,IntArray,MapObject.Location.GridPosX
 97825020,2541899808,IntArray,MapObject.Location.GridPosY
 EE0B27EC,3993708524,IntArray,MapObject.MapLink.LinkedMapId
-2115AFB6,0555069366,IntArray,Mii.Belongings.<Unknown_B6777AF5>.UgcGoodsIndex
+2115AFB6,0555069366,IntArray,Mii.Belongings.GoodsOwnInfoSlot.UgcGoodsIndex
 25B48224,0632586788,IntArray,Mii.CharacterParam.Activeness
 CD8DBAF8,3448617720,IntArray,Mii.CharacterParam.Audaciousness
 607BA160,1618714976,IntArray,Mii.CharacterParam.Commonsense
@@ -3477,8 +3477,8 @@ FE307559,4264588633,IntArray,Player.MiiBirthdayNews.WatchedMiiIndex
 305F22D1,0811541201,IntArray,Player.TroubleInfo.GenerateCount
 6CCBA6D7,1825285847,IntArray,Player.TroubleInfo.ResolveSuccessCount
 42C2FC2F,1120074799,IntArray,Relation.Info.DirectionalInfo.Meter
-F7420AFB,4148300539,IntArray,Relation.Info.RelationId.<Unknown_F110E214>
-4071F71C,1081210652,IntArray,Relation.Info.RelationId.<Unknown_0F9D0174>
+F7420AFB,4148300539,IntArray,Relation.Info.RelationId.Id_a
+4071F71C,1081210652,IntArray,Relation.Info.RelationId.Id_b
 0DBABE27,0230342183,IntArray,UGC.Cloth.EmissionPattern
 6EA67FB6,1856405430,IntArray,UGC.Cloth.OwnNum
 2823DBD3,0673438675,IntArray,UGC.Cloth.Price
@@ -3530,7 +3530,7 @@ A88537BF,2827302847,UInt,DailyLog.ContentsCountByFocusLeading
 315DA155,0828219733,UInt,DailyLog.ContentsCountByPickUp
 90D48669,2429847145,UInt,DailyLog.CurrentPlayDay
 9C426820,2621597728,UInt,DailyLog.CurrentPlayMonth
-1F736DBD,0527658429,UInt,DailyLog.<Unknown_AE878FF9>
+1F736DBD,0527658429,UInt,DailyLog.CurrentPlayYear
 602EE35D,1613685597,UInt,DailyLog.EmotionBallGet
 E515229C,3843367580,UInt,DailyLog.EmotionBallSpent
 0AD95B4A,0182016842,UInt,DailyLog.EnterAtelierCount
@@ -3916,7 +3916,7 @@ F91E67BE,4179519422,UIntArray,Liberation.WishInfo.WishIdValue
 3C00DB6C,1006689132,UIntArray,MapObject.UgcObje.UgcId
 84824827,2223130663,UIntArray,Mii.Belongings.ClothOwnInfo
 89CE9150,2312016208,UIntArray,Mii.Belongings.CoordinateOwnInfo
-E3D6005E,3822452830,UIntArray,Mii.Belongings.<Unknown_B6777AF5>.GoodsStringId
+E3D6005E,3822452830,UIntArray,Mii.Belongings.GoodsOwnInfoSlot.GoodsStringId
 F334FD2E,4080336174,UIntArray,Mii.Belongings.Money
 C1094D9F,3238612383,UIntArray,Mii.MiiMisc.ClothInfo.Accessory.KeyHash
 B20FECED,2987388141,UIntArray,Mii.MiiMisc.ClothInfo.All.KeyHash
@@ -4898,7 +4898,7 @@ EED6D279,4007055993,UInt64Array,DailyLog.<Unknown_A09C7F34>
 6A8060AA,1786798250,UInt64Array,MapGrid.<Unknown_F8D4F089>
 9461104D,2489389133,UInt64Array,MapObject.MapObjectMisc.AddGameTime
 F580D0F4,4118860020,UInt64Array,Mii.Belongings.ExteriorNextEmotionBallTime
-48C3881A,1220773914,UInt64Array,Mii.Belongings.<Unknown_B6777AF5>.GetTime
+48C3881A,1220773914,UInt64Array,Mii.Belongings.GoodsOwnInfoSlot.GetTime
 5CA4F5D2,1554314706,UInt64Array,Mii.Belongings.InteriorNextEmotionBallTime
 800E786E,2148431982,UInt64Array,Mii.Belongings.<Unknown_63463FA0>
 8F8161D5,2407621077,UInt64Array,Mii.Feeling.FeelingEndGameTime
@@ -4983,7 +4983,7 @@ C6482C14,3326618644,WString64,Player.HowToCallIslandName
 BD8C4DA1,3180088737,WString64,Player.HowToCallName
 A2EACB08,2733296392,WString64Array,Childcare.Pending.WordInfo.WordArray.WordHowToCall
 B98A5545,3112850757,WString64Array,Childcare.Pending.WordInfo.WordArray.WordText
-47E7179B,1206327195,WString64Array,House.<Unknown_960A0A58>
+47E7179B,1206327195,WString64Array,House.HowToCallRoommateGroupName
 80EEFCA9,2163145897,WString64Array,Mii.MiiMisc.EntryInfo.HowToCallPlayerNickName
 0B2A261E,0187311646,WString64Array,Mii.MiiMisc.WordInfo.WordArray.WordHowToCall
 09EF8656,0166692438,WString64Array,Mii.MiiMisc.WordInfo.WordArray.WordText
@@ -5125,7 +5125,7 @@ F7FA6BB1,4160383921,Struct,MapObject.MapLink
 26AFE578,0649061752,Struct,MapObject.UgcObje
 5917A80C,1494722572,Struct,Mii
 4F38B04B,1329115211,Struct,Mii.Belongings
-B5B1C20B,3048325643,Struct,Mii.Belongings.<Unknown_B6777AF5>
+B5B1C20B,3048325643,Struct,Mii.Belongings.GoodsOwnInfoSlot
 2166826B,0560366187,Struct,Mii.Belongings.HabitOwnInfo
 519A1D11,1369054481,Struct,Mii.Belongings.HabitOwnInfo.BlinkLot
 CFDB0F5F,3487240031,Struct,Mii.Belongings.HabitOwnInfo.BreakGas
