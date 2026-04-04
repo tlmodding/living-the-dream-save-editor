@@ -24,7 +24,7 @@
         <GridSplitter Grid.Column="1" Background="Transparent" />
 
         <!-- Main Workspace: Data Grid -->
-        <Border Grid.Column="2" Padding="20" Background="{DynamicResource SolidBackgroundFillColorQuarternaryBrush}">
+        <Border Grid.Column="2" Padding="5" Background="{DynamicResource SolidBackgroundFillColorQuarternaryBrush}">
             <Grid RowDefinitions="Auto, *">
                 <StackPanel Orientation="Horizontal" Spacing="20">
                     <TextBlock Name="EntryTitle" 
@@ -57,6 +57,7 @@
                           RowHeaderWidth="40"
                           ColumnHeaderHeight="32"
                           CornerRadius="4"
+                          Margin="0 5 0 0"
                           Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"
                           BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}"
                           SelectionMode="Extended">
