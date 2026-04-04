@@ -15,12 +15,12 @@
         <Border DockPanel.Dock="Top" Height="40" Background="{DynamicResource AppBackgroundBrush}">
             <Menu VerticalAlignment="Center">
                 <MenuItem Header="File">
-                    <MenuItem Header="Save" Name="SaveMenu" Click="SaveMenu_Click" HotKey="Cmd+S">
+                    <MenuItem Header="Save" Name="SaveMenu" Click="SaveMenu_Click" HotKey="Ctrl+S">
                         <MenuItem.Icon>
                             <ui:SymbolIcon Symbol="Save" />
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Header="Refresh" Name="RefreshMenu" Click="RefreshMenu_Click" HotKey="Cmd+R">
+                    <MenuItem Header="Refresh" Name="RefreshMenu" Click="RefreshMenu_Click" HotKey="Ctrl+R">
                         <MenuItem.Icon>
                             <ui:SymbolIcon Symbol="Refresh" />
                         </MenuItem.Icon>
