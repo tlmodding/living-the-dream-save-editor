@@ -7,7 +7,7 @@
         xmlns:window="using:FluentAvalonia.UI.Windowing"
         mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="700"
         x:Class="LTDSaveEditor.Avalonia.Views.EditorWindow"
-        Title="LTD Save Editor - Editor"
+        Title="Living the Dream: Save Editor"
         Width="1000" Height="700"
         WindowStartupLocation="CenterScreen"
         Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"

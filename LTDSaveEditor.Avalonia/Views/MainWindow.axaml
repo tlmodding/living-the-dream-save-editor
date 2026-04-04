@@ -5,12 +5,13 @@
         xmlns:ui="using:FluentAvalonia.UI.Controls"
         mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="400"
         x:Class="LTDSaveEditor.Avalonia.Views.MainWindow"
-        Title="LTD Save Editor"
+        Title="Living the Dream: Save Editor"
         Width="600" Height="400"
         WindowStartupLocation="CenterScreen"
         Background="Transparent"
         TransparencyLevelHint="Mica"
         ExtendClientAreaToDecorationsHint="True"
+        MinWidth="550" MinHeight="300"
         Icon="avares://LTDSaveEditor.Avalonia/Assets/app.ico">
 
     <Grid DragDrop.AllowDrop="True">
@@ -18,9 +19,10 @@
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="20">
                 <ui:SymbolIcon Symbol="Folder" FontSize="64" Foreground="{DynamicResource AccentFillColorDefaultBrush}" />
                 
-                <TextBlock Text="Living the Dream Save Editor" 
-                           FontSize="24" FontWeight="Bold" 
-                           HorizontalAlignment="Center" />
+                <TextBlock Text="Living the ream: Save Editor " 
+                           FontSize="32"
+                           HorizontalAlignment="Center"
+                           FontFamily="avares://LTDSaveEditor.Avalonia/Assets/Fonts/#DreamLife"/>
                 
                 <TextBlock Text="Select your save folder or drop it here" 
                            FontSize="16" Foreground="{DynamicResource TextFillColorSecondaryBrush}" 
@@ -36,7 +38,8 @@
                 <TextBlock Name="StatusText" 
                            Text="" 
                            Foreground="Red" 
-                           HorizontalAlignment="Center" 
+                           HorizontalAlignment="Center"
+                           IsVisible="False"
                            TextWrapping="Wrap" />
             </StackPanel>
         </Border>

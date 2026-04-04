@@ -128,6 +128,7 @@ public partial class MainWindow : Window
     {
         if (!Directory.Exists(saveFolder))
         {
+            StatusText.IsVisible = true;
             StatusText.Text = "The specified folder does not exist.";
             return false;
         }
@@ -136,6 +137,7 @@ public partial class MainWindow : Window
 
         if (!RequiredFiles.All(y => files.Contains(y, StringComparer.OrdinalIgnoreCase)))
         {
+            StatusText.IsVisible = true;
             StatusText.Text = "The folder does not contain Required files: " + string.Join(", ", RequiredFiles);
             return false;
         }

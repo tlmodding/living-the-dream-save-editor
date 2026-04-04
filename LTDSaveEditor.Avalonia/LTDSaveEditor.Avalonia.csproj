@@ -12,6 +12,7 @@
     <AvaloniaResource Include="Assets\**" />
     <AvaloniaResource Include="Assets\Logo.png" />
     <AvaloniaResource Include="Assets\app.ico" />
+    <AvaloniaResource Include="Assets\Fonts\**" />
   </ItemGroup>
 
   <ItemGroup>
