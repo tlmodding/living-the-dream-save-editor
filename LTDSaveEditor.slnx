@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="LTDSaveEditor.Avalonia/LTDSaveEditor.Avalonia.csproj" />
   <Project Path="LTDSaveEditor.Core/LTDSaveEditor.Core.csproj" />
   <Project Path="LTDSaveEditor.WinForms/LTDSaveEditor.WinForms.csproj" />
 </Solution>
