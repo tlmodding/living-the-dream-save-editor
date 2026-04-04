@@ -5,7 +5,7 @@
              RequestedThemeVariant="Dark">
 
     <Application.Styles>
-        <sty:FluentAvaloniaTheme PreferUserAccentColor="True" CustomAccentColor="#7B61FF" />
+        <sty:FluentAvaloniaTheme PreferUserAccentColor="True" CustomAccentColor="#fe7900" />
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
     </Application.Styles>
 </Application>

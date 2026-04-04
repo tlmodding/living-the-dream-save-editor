@@ -10,6 +10,8 @@
 
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
+    <AvaloniaResource Include="Assets\Logo.png" />
+    <AvaloniaResource Include="Assets\app.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,6 +28,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LTDSaveEditor.Core\LTDSaveEditor.Core.csproj" />
-    <ProjectReference Include="..\LTDSaveEditor.Data\LTDSaveEditor.Data.csproj" />
+    <ProjectReference Include="..\LTDSaveEditor.Data\LTDSaveEditor.Common.csproj" />
   </ItemGroup>
 </Project>

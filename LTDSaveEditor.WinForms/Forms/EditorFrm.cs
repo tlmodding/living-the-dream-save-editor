@@ -1,4 +1,5 @@
-﻿using LTDSaveEditor.Core;
+﻿using LTDSaveEditor.Common.Utility;
+using LTDSaveEditor.Core;
 using LTDSaveEditor.Core.SAV;
 using LTDSaveEditor.WinForms.Utility;
 using WeifenLuo.WinFormsUI.Docking;

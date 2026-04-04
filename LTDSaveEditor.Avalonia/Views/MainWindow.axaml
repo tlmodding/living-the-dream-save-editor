@@ -10,7 +10,8 @@
         WindowStartupLocation="CenterScreen"
         Background="Transparent"
         TransparencyLevelHint="Mica"
-        ExtendClientAreaToDecorationsHint="True">
+        ExtendClientAreaToDecorationsHint="True"
+        Icon="avares://LTDSaveEditor.Avalonia/Assets/app.ico">
 
     <Grid DragDrop.AllowDrop="True">
         <Border Background="{DynamicResource SolidBackgroundFillColorBaseBrush}" Opacity="0.8" CornerRadius="12" Margin="20">

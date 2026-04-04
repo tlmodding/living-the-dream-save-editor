@@ -1,3 +1,4 @@
+using LTDSaveEditor.Common.Utility;
 using LTDSaveEditor.Core;
 using LTDSaveEditor.WinForms;
 using LTDSaveEditor.WinForms.Forms;
@@ -20,6 +21,8 @@ class AppContext : ApplicationContext
                 return;
             }
         }
+
+        BackupManager.BackupMax = UserOptions.Instance.MaximumBackups;
 
         if (UserOptions.Instance.OpenLastSaveOnStartup && !string.IsNullOrEmpty(UserOptions.Instance.LastSaveFolder))
         {

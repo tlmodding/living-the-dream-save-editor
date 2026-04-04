@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LTDSaveEditor.Core\LTDSaveEditor.Core.csproj" />
-    <ProjectReference Include="..\LTDSaveEditor.Data\LTDSaveEditor.Data.csproj" />
+    <ProjectReference Include="..\LTDSaveEditor.Data\LTDSaveEditor.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>

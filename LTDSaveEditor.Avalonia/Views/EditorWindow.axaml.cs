@@ -1,9 +1,7 @@
-using Avalonia.Controls;
-using Avalonia.Controls.Chrome;
 using Avalonia.Interactivity;
 using FluentAvalonia.UI.Controls;
 using FluentAvalonia.UI.Windowing;
-using LTDSaveEditor.Avalonia.Utility;
+using LTDSaveEditor.Common.Utility;
 using LTDSaveEditor.Core;
 using LTDSaveEditor.Core.SAV;
 using System;
