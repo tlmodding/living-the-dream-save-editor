@@ -36,7 +36,7 @@
         </Border>
 
         <ui:TabView x:Name="EditorTabView" 
-                    CanReorderTabs="True" 
+                    CanReorderTabs="False" 
                     Padding="0"
                     VerticalAlignment="Stretch">
             <!-- Tabs will be added programmatically -->

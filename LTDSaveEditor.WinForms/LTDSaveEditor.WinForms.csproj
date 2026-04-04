@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LTDSaveEditor.Core\LTDSaveEditor.Core.csproj" />
+    <ProjectReference Include="..\LTDSaveEditor.Data\LTDSaveEditor.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,12 +32,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Data\GameDataListFull.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>
