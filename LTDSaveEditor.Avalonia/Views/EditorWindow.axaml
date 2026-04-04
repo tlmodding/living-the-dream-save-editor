@@ -1,9 +1,10 @@
-<Window xmlns="https://github.com/avaloniaui"
+<window:AppWindow xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ui="using:FluentAvalonia.UI.Controls"
         xmlns:local="using:LTDSaveEditor.Avalonia.Views"
+        xmlns:window="using:FluentAvalonia.UI.Windowing"
         mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="700"
         x:Class="LTDSaveEditor.Avalonia.Views.EditorWindow"
         Title="LTD Save Editor - Editor"
@@ -42,4 +43,4 @@
             <!-- Tabs will be added programmatically -->
         </ui:TabView>
     </DockPanel>
-</Window>
+</window:AppWindow>

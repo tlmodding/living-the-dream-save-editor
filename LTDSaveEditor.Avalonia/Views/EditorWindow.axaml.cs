@@ -1,6 +1,8 @@
 using Avalonia.Controls;
+using Avalonia.Controls.Chrome;
 using Avalonia.Interactivity;
 using FluentAvalonia.UI.Controls;
+using FluentAvalonia.UI.Windowing;
 using LTDSaveEditor.Avalonia.Utility;
 using LTDSaveEditor.Core;
 using LTDSaveEditor.Core.SAV;
@@ -10,7 +12,7 @@ using System.IO;
 
 namespace LTDSaveEditor.Avalonia.Views;
 
-public partial class EditorWindow : Window
+public partial class EditorWindow : AppWindow
 {
     public SaveInstance SaveInstance { get; private set; }
     public BackupManager BackupManager { get; }
@@ -26,6 +28,10 @@ public partial class EditorWindow : Window
         BackupManager = new BackupManager(SaveInstance.Folder);
 
         EditorTabView.TabItems = _tabs;
+
+        TitleBar.Height = 40;
+        TitleBar.ExtendsContentIntoTitleBar = true;
+        TitleBar.TitleBarHitTestType = TitleBarHitTestType.Complex;
 
         CreateTab("Player", SaveInstance.Player);
         CreateTab("Mii", SaveInstance.Mii);
