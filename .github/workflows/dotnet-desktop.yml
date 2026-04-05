@@ -188,3 +188,13 @@ jobs:
           asset_path: artifacts/LTDSaveEditor-macOS-arm64/LTDSaveEditor-macOS-arm64.zip
           asset_name: LTDSaveEditor-macOS-arm64.zip
           asset_content_type: application/zip
+
+      - name: Upload Windows x64
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: artifacts/LTDSaveEditor-windows-x64/LTDSaveEditor-windows-x64.zip
+          asset_name: LTDSaveEditor-Windows-x64.zip
+          asset_content_type: application/zip
