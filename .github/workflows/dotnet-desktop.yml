@@ -36,7 +36,7 @@ jobs:
 
       - name: Zip WinForms
         shell: pwsh
-        run: Compress-Archive -Path publish/win-x64/* -DestinationPath LTDSaveEditor-Windows.zip
+        run: Compress-Archive -Path publish/win-x64/* -DestinationPath LTDSaveEditor-Windows-WinForms.zip
 
       - name: Upload Windows artifact
         uses: actions/upload-artifact@v4
