@@ -83,10 +83,6 @@ jobs:
           dotnet publish LTDSaveEditor.Avalonia/LTDSaveEditor.Avalonia.csproj
           -c Release
           -r ${{ matrix.rid }}
-          --self-contained true
-          -p:PublishSingleFile=true
-          -p:PublishTrimmed=true
-          -p:PublishAot=true
           -o publish/${{ matrix.rid }}
           --no-restore
 
