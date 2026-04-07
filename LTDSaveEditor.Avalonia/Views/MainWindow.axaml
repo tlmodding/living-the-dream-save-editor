@@ -15,7 +15,7 @@
         Icon="avares://LTDSaveEditor.Avalonia/Assets/app.ico">
 
     <Grid DragDrop.AllowDrop="True">
-        <Border Background="{DynamicResource SolidBackgroundFillColorBaseBrush}" Opacity="0.8" CornerRadius="12" Margin="20">
+        <Border Background="{DynamicResource SolidBackgroundFillColorBaseBrush}">
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="20">
                 <ui:SymbolIcon Symbol="Folder" FontSize="64" Foreground="{DynamicResource AccentFillColorDefaultBrush}" />
                 

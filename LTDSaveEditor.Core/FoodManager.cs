@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace LTDSaveEditor.Core;
 
@@ -17,7 +18,7 @@ public static class FoodManager
         try
         {
             var json = File.ReadAllText(jsonPath);
-            var data = JsonSerializer.Deserialize<Dictionary<string, string>>(json);
+            var data = JsonSerializer.Deserialize(json, FoodHashJsonContext.Default.DictionaryStringString);
             if (data != null)
             {
                 foreach (var kvp in data)
@@ -41,4 +42,9 @@ public static class FoodManager
             return name;
         return hash.ToString();
     }
+}
+
+[JsonSerializable(typeof(Dictionary<string, string>))]
+internal partial class FoodHashJsonContext : JsonSerializerContext
+{
 }

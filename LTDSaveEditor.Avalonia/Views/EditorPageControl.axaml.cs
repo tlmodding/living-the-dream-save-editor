@@ -12,6 +12,7 @@ using System.Linq;
 
 namespace LTDSaveEditor.Avalonia.Views;
 
+
 public partial class EditorPageControl : UserControl
 {
     public SavFile? SaveFile { get; private set; }
@@ -23,7 +24,6 @@ public partial class EditorPageControl : UserControl
         InitializeComponent();
     }
 
- 
     public EditorPageControl(SavFile savFile)
     {
         InitializeComponent();
@@ -43,6 +43,8 @@ public partial class EditorPageControl : UserControl
         }
     }
 
+    // Need to declare as dependecy so enums don't explode when trimming
+    [DynamicDependency(DynamicallyAccessedMemberTypes.PublicProperties | DynamicallyAccessedMemberTypes.PublicEvents, typeof(DataGridRowWrapper))]
     private void UpdateEditor(SavFileEntry entry, uint hash)
     {
         // Detach old listeners
@@ -113,7 +115,7 @@ public partial class EditorPageControl : UserControl
                 Header = "Index",
                 Binding = new Binding("Index"),
                 IsReadOnly = true,
-                Width = new DataGridLength(60)
+                Width = new DataGridLength(85)
             });
 
             var valueCol = CreateColumn(entry, data, targetType);
@@ -140,15 +142,6 @@ public partial class EditorPageControl : UserControl
 
             row.PropertyChanged += Row_PropertyChanged;
             _currentRows.Add(row);
-
-            // Property column for context
-            EntryDataGrid.Columns.Add(new DataGridTextColumn
-            {
-                Header = "Property",
-                Binding = new Binding("Label"),
-                IsReadOnly = true,
-                Width = new DataGridLength(1, DataGridLengthUnitType.Auto)
-            });
 
             var valueCol = CreateColumn(entry, data, targetType);
             valueCol.Header = "Value";
@@ -251,7 +244,7 @@ public partial class EditorPageControl : UserControl
                     new CheckBox
                     {
                         [!CheckBox.IsCheckedProperty] = new Binding("Value", BindingMode.TwoWay),
-                        HorizontalAlignment = global::Avalonia.Layout.HorizontalAlignment.Center
+                        HorizontalAlignment = global::Avalonia.Layout.HorizontalAlignment.Left
                     })
             };
         }

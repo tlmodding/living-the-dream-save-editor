@@ -60,7 +60,8 @@
                           Margin="0 5 0 0"
                           Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"
                           BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}"
-                          SelectionMode="Extended">
+                          SelectionMode="Single"
+                          CanUserSortColumns="False">
                     <DataGrid.Styles>
                         <Style Selector="DataGridColumnHeader">
                             <Setter Property="Background" Value="{DynamicResource SolidBackgroundFillColorSecondaryBrush}" />
