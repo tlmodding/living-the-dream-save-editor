@@ -1,7 +1,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using LTDSaveEditor.Core.SAV;
-using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 
 namespace LTDSaveEditor.Avalonia.ViewModels;
 
@@ -13,25 +14,42 @@ public partial class MiiOptionViewModel(SavFile savFile, int index) : Observable
 
     public string Name
     {
-        get
-        {
-            if (TryGetValueFromMiiArray<string>("Mii.Name.Name", out var name))
-                return name;
-
-            return "Unknown Mii";
-        }
-        set
-        {
-            // TODO: Check limits
-            if (TryGetValue<string[]>("Mii.Name.Name", out var names) && names[Index] != value)
-            {
-                names[Index] = value;
-                OnPropertyChanged(nameof(Name));
-            }
-        }
+        get => GetMiiValue("Mii.Name.Name", "Unknown Mii");
+        set => SetMiiValue("Mii.Name.Name", value);
     }
 
-    public override string ToString() => Name;
+    public uint Money
+    {
+        get => GetMiiValue<uint>("Mii.Belongings.Money", 0);
+        set => SetMiiValue("Mii.Belongings.Money", value);
+    }
+
+    private bool SetMiiValue<T>(string key, T value, [CallerMemberName] string? propertyName = null)
+    {
+        if (value is null)
+            return false;
+        
+        if (!TryGetValue<T[]>(key, out var array) || array is null)
+            return false;
+
+        if (Index < 0 || Index >= array.Length)
+            return false;
+
+        if (EqualityComparer<T>.Default.Equals(array[Index], value))
+            return false;
+
+        array[Index] = value;
+        OnPropertyChanged(propertyName);
+        return true;
+    }
+
+    private T GetMiiValue<T>(string key, T fallback = default!)
+    {
+        if (TryGetValueFromMiiArray<T>(key, out var value))
+            return value;
+
+        return fallback;
+    }
 
     private bool TryGetValue<T>(string key, [MaybeNullWhen(false)] out T value) => _savFile.TryGetValue(key, out value);
     private bool TryGetValueFromMiiArray<T>(string key, [MaybeNullWhen(false)] out T value)
