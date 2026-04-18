@@ -289,6 +289,21 @@ public partial class EditorPageControl : UserControl
         };
     }
 
+    private static void SortNodesByLabel(ObservableCollection<TreeViewNode> nodes)
+    {
+        var sorted = nodes
+            .OrderBy(n => n.Label, StringComparer.OrdinalIgnoreCase)
+            .ToList();
+
+        nodes.Clear();
+
+        foreach (var node in sorted)
+        {
+            SortNodesByLabel(node.Nodes);
+            nodes.Add(node);
+        }
+    }
+
     private void LoadGameData()
     {
         _rootNodes.Clear();
@@ -329,5 +344,7 @@ public partial class EditorPageControl : UserControl
                     currentNode.Label += $" ({entry.DataType})";
             }
         }
+
+        SortNodesByLabel(_rootNodes);
     }
 }
