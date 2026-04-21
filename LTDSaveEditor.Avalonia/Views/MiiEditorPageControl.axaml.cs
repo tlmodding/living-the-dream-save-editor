@@ -1,6 +1,4 @@
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
 using LTDSaveEditor.Avalonia.ViewModels;
 using LTDSaveEditor.Core.SAV;
 

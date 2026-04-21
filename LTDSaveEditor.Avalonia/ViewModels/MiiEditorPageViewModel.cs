@@ -16,7 +16,7 @@ public partial class MiiEditorPageViewModel : ObservableObject
         // Uses Mii.Name to check if Mii exists... probably there is a better way 🤔
         if (savFile.TryGetValue<string[]>("Mii.Name.Name", out var names))
         {
-            for (int i = 0; i < names.Length; i++)
+            for (var i = 0; i < names.Length; i++)
                 if (!string.IsNullOrEmpty(names[i]))
                     Miis.Add(new MiiOptionViewModel(savFile, i));
 

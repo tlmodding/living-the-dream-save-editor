@@ -1,0 +1,179 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:editor="using:LTDSaveEditor.Avalonia.MapEditor"
+             xmlns:ui="using:FluentAvalonia.UI.Controls"
+             xmlns:viewModels="using:LTDSaveEditor.Avalonia.ViewModels"
+             xmlns:views="using:LTDSaveEditor.Avalonia.Views"
+             mc:Ignorable="d"
+             d:DesignWidth="1100"
+             d:DesignHeight="700"
+             x:Class="LTDSaveEditor.Avalonia.Views.MapEditorPageControl"
+             x:DataType="viewModels:MapEditorPageViewModel">
+
+    <Grid>
+        <Grid x:Name="EditorState"
+              RowDefinitions="Auto,*,Auto"
+              ColumnDefinitions="300,*"
+              IsVisible="True">
+
+            <Border Grid.Row="0"
+                    Grid.ColumnSpan="2"
+                    Margin="12 12 12 8"
+                    Padding="12"
+                    CornerRadius="8"
+                    Background="{DynamicResource LayerFillColorDefaultBrush}">
+                <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                    <Button Command="{Binding UndoCommand}"
+                            IsEnabled="{Binding CanUndo}"
+                            ToolTip.Tip="Undo (Ctrl+Z)">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <ui:SymbolIcon Symbol="Undo" FontSize="16" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{Binding RedoCommand}"
+                            IsEnabled="{Binding CanRedo}"
+                            ToolTip.Tip="Redo (Ctrl+Y)">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <ui:SymbolIcon Symbol="Redo" FontSize="16" />
+                        </StackPanel>
+                    </Button>
+                     <TextBlock Margin="12 0 0 0"
+                                VerticalAlignment="Center"
+                                FontWeight="SemiBold"
+                                Text="Tool" />
+                    <Button Command="{Binding SelectBrushToolCommand}"
+                            Padding="0"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            ToolTip.Tip="Brush tool">
+                        <Grid RowDefinitions="Auto,3">
+                            <StackPanel Margin="5 4 5 3" Orientation="Horizontal" Spacing="6">
+                                <ui:SymbolIcon Symbol="ColorLine"
+                                               FontSize="30"
+                                               Foreground="{DynamicResource AccentFillColorDefaultBrush}" />
+                                
+                            </StackPanel>
+                            <Border Grid.Row="1"
+                                    Height="3"                   
+                                    CornerRadius="0 0 10 10"
+                                    Background="{DynamicResource AccentFillColorDefaultBrush}"
+                                    IsVisible="{Binding IsBrushToolSelected}" />
+                        </Grid>
+                    </Button>
+                    <Button Command="{Binding SelectFillToolCommand}"
+                            Padding="0"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            ToolTip.Tip="Fill tool">
+                        <Grid RowDefinitions="Auto,3">
+                            <StackPanel Margin="5 4 5 3" Orientation="Horizontal" Spacing="6">
+                                <ui:SymbolIcon Symbol="ColorFill"
+                                               FontSize="30"
+                                               Foreground="{DynamicResource AccentFillColorDefaultBrush}" />
+                            </StackPanel>
+                            <Border Grid.Row="1"
+                                    Height="3"
+                                    CornerRadius="0 0 10 10"
+                                    Background="{DynamicResource AccentFillColorDefaultBrush}"
+                                    IsVisible="{Binding IsFillToolSelected}" />
+                        </Grid>
+                    </Button>
+                    <TextBlock Margin="12 0 0 0"
+                               VerticalAlignment="Center"
+                               FontWeight="SemiBold"
+                               Text="Zoom" />
+                    <Button Content="-" Command="{Binding ZoomOutCommand}" />
+                    <Slider Width="160"
+                            Minimum="4"
+                            Maximum="24"
+                            TickFrequency="2"
+                            IsSnapToTickEnabled="True"
+                            Value="{Binding Zoom}" />
+                    <Button Content="+" Command="{Binding ZoomInCommand}" />
+                    <TextBlock VerticalAlignment="Center"
+                               Text="{Binding ZoomDisplayText}" />
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="12 0 8 12"
+                    Padding="12"
+                    CornerRadius="8"
+                    Background="{DynamicResource LayerFillColorDefaultBrush}">
+                <Grid RowDefinitions="Auto,*,Auto">
+                    <StackPanel Spacing="4">
+                        <TextBlock FontSize="16"
+                                   FontWeight="SemiBold"
+                                   Text="Palette" />
+                    </StackPanel>
+
+                    <ListBox Grid.Row="1"
+                             Margin="0 12 0 0"
+                             ItemsSource="{Binding Palette}"
+                             SelectedItem="{Binding SelectedPaletteItem}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate x:DataType="editor:MapPaletteItem">
+                                <Grid ColumnDefinitions="28,*">
+                                    <Border Width="18"
+                                            Height="18"
+                                            CornerRadius="3"
+                                            VerticalAlignment="Center"
+                                            Background="{Binding BrushColor}"
+                                            BorderBrush="#66000000"
+                                            BorderThickness="1"/>
+                                   
+                                    <TextBlock VerticalAlignment="Center" FontWeight="SemiBold" Grid.Column="1" Text="{Binding Name}" />
+                                    
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </Border>
+
+            <Border Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="8 0 12 12"
+                    Padding="12"
+                    CornerRadius="8"
+                    Background="{DynamicResource LayerFillColorDefaultBrush}">
+                <ScrollViewer x:Name="MapScrollViewer"
+                              HorizontalScrollBarVisibility="Auto"
+                              VerticalScrollBarVisibility="Auto">
+                    <views:MapEditorCanvas x:Name="MapCanvas"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Top"
+                                           ViewModel="{Binding}"
+                                           Zoom="{Binding Zoom}">
+                        <views:MapEditorCanvas.KeyBindings>
+                            <KeyBinding Gesture="Ctrl+Z" Command="{Binding UndoCommand}" />
+                            <KeyBinding Gesture="Ctrl+Shift+Z" Command="{Binding RedoCommand}" />
+                            <KeyBinding Gesture="Ctrl+Y" Command="{Binding RedoCommand}" />
+                        </views:MapEditorCanvas.KeyBindings>
+                    </views:MapEditorCanvas>
+                </ScrollViewer>
+            </Border>
+
+            <Border Grid.Row="2"
+                    Grid.ColumnSpan="2"
+                    Margin="12 0 12 12"
+                    Padding="12 8"
+                    CornerRadius="8"
+                    Background="{DynamicResource LayerFillColorDefaultBrush}">
+                <TextBlock Text="{Binding StatusText}" TextWrapping="Wrap" />
+            </Border>
+        </Grid>
+
+        <Border x:Name="ErrorState"
+                IsVisible="False"
+                Margin="16"
+                Padding="16"
+                CornerRadius="8"
+                Background="{DynamicResource LayerFillColorDefaultBrush}">
+            <TextBlock x:Name="ErrorText" TextWrapping="Wrap" />
+        </Border>
+    </Grid>
+</UserControl>

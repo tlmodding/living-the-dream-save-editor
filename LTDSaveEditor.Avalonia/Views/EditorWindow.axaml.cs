@@ -6,6 +6,7 @@ using LTDSaveEditor.Core;
 using LTDSaveEditor.Core.SAV;
 using System;
 using System.Diagnostics;
+using System.Formats.Tar;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -37,9 +38,24 @@ public partial class EditorWindow : AppWindow
         TitleBar.ExtendsContentIntoTitleBar = true;
         TitleBar.TitleBarHitTestType = TitleBarHitTestType.Complex;
 
+        CreateTabs();
+    }
+
+
+    private void CreateTabs()
+    {
+        if (SaveInstance == null) return;
+
         CreateTab("Player", SaveInstance.Player);
         CreateTab("Mii", SaveInstance.Mii);
-        CreateTab("Map", SaveInstance.Map);
+        CreateTab("Map Data", SaveInstance.Map);
+
+        _tabs.Add(new TabViewItem
+        {
+            Header = "Map Editor",
+            IsClosable = false,
+            Content = new MapEditorPageControl(SaveInstance.Map)
+        });
 #if DEBUG
         _tabs.Add(new TabViewItem
         {
@@ -49,7 +65,6 @@ public partial class EditorWindow : AppWindow
         });
 #endif
     }
-
 
     private void CreateTab(string title, SavFile savFile)
     {
@@ -104,10 +119,7 @@ public partial class EditorWindow : AppWindow
 
             // Re-load SaveInstance directly
             SaveInstance = new SaveInstance(SaveInstance.Folder);
-
-            CreateTab("Player", SaveInstance.Player);
-            CreateTab("Mii", SaveInstance.Mii);
-            CreateTab("Map", SaveInstance.Map);
+            CreateTabs();
 
             await ShowMessage("Refreshed", "Save data has been reloaded from disk.");
         }
