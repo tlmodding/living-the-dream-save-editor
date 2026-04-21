@@ -1,5 +1,3 @@
-using System.ComponentModel;
-
 namespace LTDSaveEditor.Avalonia.Views;
 
 public class EnumOption

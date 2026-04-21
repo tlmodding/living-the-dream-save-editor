@@ -28,7 +28,7 @@ public partial class MiiOptionViewModel(SavFile savFile, int index) : Observable
     {
         if (value is null)
             return false;
-        
+
         if (!TryGetValue<T[]>(key, out var array) || array is null)
             return false;
 

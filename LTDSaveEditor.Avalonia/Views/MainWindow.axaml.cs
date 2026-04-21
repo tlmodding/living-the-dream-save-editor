@@ -15,7 +15,7 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         TryInitializeReferenceData();
-        
+
 
         AddHandler(DragDrop.DropEvent, OnDrop);
         AddHandler(DragDrop.DragOverEvent, OnDragOver);
